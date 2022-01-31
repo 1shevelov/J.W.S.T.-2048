@@ -1,0 +1,15 @@
+{
+  "name": "J.W.S.T. 2048",
+  "version": "1.0.0",
+  "description": "A 2048 game on a hex field",
+  "main": "game.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Andrei Shevelev (shevelov@gmail.com)",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "pixi.js": "^6.2.1"
+  }
+}
