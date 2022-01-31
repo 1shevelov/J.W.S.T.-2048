@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Andrei Shevelev (shevelov@gmail.com)",
-  "license": "MIT",
+  "license": "Apache 2.0",
   "type": "module",
   "dependencies": {
     "pixi.js": "^6.2.1"
