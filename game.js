@@ -4,8 +4,9 @@ import * as vis from "./modules/visuals.mjs";
 
 import GameLogic from "./modules/game-logic.mjs";
 import Draw from "./modules/draw.mjs";
+import EventHandler from "./modules/event-handler.mjs";
 
-const CURRENT_GAME_SIZE = constant.GAME_SIZES[2];
+const CURRENT_GAME_SIZE = constant.GAME_SIZES[0];
 
 const gameEl = document.getElementById("game");
 const gameUIEl = document.getElementById("game-ui");
@@ -42,25 +43,34 @@ app.stage.addChild(GR);
 
 let logic = new GameLogic(CURRENT_GAME_SIZE);
 
-const logicHexes = logic.getField();
+//debugShowHexLabels();
 
-const logicLabels = [];
-logicHexes.forEach(hex => logicLabels.push(hex.x + "," + hex.y));
+logic.newTiles(1, [2]);
 
-const CURRENT_TEXT_STYLE = vis.TEXT_DEBUG;//TEXT_ON_DARK_WARM;
-const TEXT_STYLE = new PIXI.TextStyle(CURRENT_TEXT_STYLE);
+const field = logic.getField();
 
-const LABELS = DRAW.indexLabels(PIXI.Text, TEXT_STYLE, logicLabels);
-
-LABELS.forEach(label => app.stage.addChild(label));
+const eventHandler = new EventHandler(document);
 
 
-// logic.newTiles(1, [2]);
-// let field = logic.getField();
-// console.log(field);
 //logic.newTiles(2, [4]);
 //console.log("Neighbour: ", logic.getNeighbour(cell, constant.SHIFT_A));
 // console.log("Shifted tiles: ", logic.shift(constant.SHIFT_W));
 // console.log(field);
 // console.log("Shifted tiles 2: ", logic.shift(constant.SHIFT_S));
 // console.log(field);
+
+
+function debugShowHexLabels() {
+    
+    const logicHexes = logic.getField();
+
+    const debugLabels = [];
+    logicHexes.forEach(hex => debugLabels.push(hex.x + "," + hex.y));
+
+    const CURRENT_TEXT_STYLE = vis.TEXT_DEBUG;//TEXT_ON_DARK_WARM;
+    const TEXT_STYLE = new PIXI.TextStyle(CURRENT_TEXT_STYLE);
+
+    const LABELS = DRAW.indexLabels(PIXI.Text, TEXT_STYLE, debugLabels);
+
+    LABELS.forEach(label => app.stage.addChild(label));
+}

@@ -17,6 +17,22 @@ export const FIELD_RING = [
 export const CELL_EMPTY = 0;
 export const CELL_DISABLED = -1; // for field configurations with gaps or just out of borders
 
+
+export const STATUS_DOM_PLAYING = "playing";
+export const STATUS_UI_PLAYING = "Game in progress";
+export const STATUS_DOM_GAME_OVER = "game-over";
+export const STATUS_UI_GAME_OVER = "Game is finished";
+
+
+// const DEV_SERVER = "";
+// const PROD_SERVER = "hex2048szb9jquj-hex15.functions.fnc.fr-par.scw.cloud";
+
+// export const RNG_SERVER = PROD_SERVER;
+
+// key codes that make move
+export const KEYS_MOVE = ["KeyQ", "KeyW", "KeyE", "KeyA", "KeyS", "KeyD",
+    "Numpad7", "Numpad8", "Numpad9", "Numpad4", "Numpad5", "Numpad6"];
+
 // direction keys & corresponding vectors
 export const KEY_Q = "q";
 export const SHIFT_Q = [-1, 1];
@@ -30,14 +46,3 @@ export const KEY_E = "e";
 export const SHIFT_E = [1, 0];
 export const KEY_D = "d";
 export const SHIFT_D = [1, -1];
-
-export const STATUS_DOM_PLAYING = "playing";
-export const STATUS_UI_PLAYING = "Game in progress";
-export const STATUS_DOM_GAME_OVER = "game-over";
-export const STATUS_UI_GAME_OVER = "Game is finished";
-
-
-const DEV_SERVER = "";
-const PROD_SERVER = "hex2048szb9jquj-hex15.functions.fnc.fr-par.scw.cloud";
-
-export const RNG_SERVER = PROD_SERVER;

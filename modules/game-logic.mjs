@@ -38,10 +38,11 @@ export default class GameLogic {
 
         createCellsRing(this.field, constant.GAME_SIZES[0]);
 
-        if(this.gameSize > constant.GAME_SIZES[0]) createCellsRing(this.field, constant.GAME_SIZES[1]);
+        if(this.gameSize > constant.GAME_SIZES[0])
+            createCellsRing(this.field, constant.GAME_SIZES[1]);
 
-        // TODO: should make 3rd row in constant.FIELD_RING first
-        //if(gameSize === constant.GAME_SIZES[2]) createCellsRing(this.field, constant.GAME_SIZES[2]);
+        if(this.gameSize === constant.GAME_SIZES[2])
+            createCellsRing(this.field, constant.GAME_SIZES[2]);
 
 
         function createCellsRing(field, ringNum) {

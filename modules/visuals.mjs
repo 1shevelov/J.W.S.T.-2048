@@ -35,7 +35,7 @@ export const THEME_DARK_WARM = {
 
 export const TEXT_ON_DARK_WARM = {
     fontFamily: 'Courier New',
-    fontSize: 36,
+    fontSize: 28,
     fontStyle: 'normal',
     fontWeight: 'bold',
     fill: '#fffecb',

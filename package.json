@@ -1,5 +1,5 @@
 {
-  "name": "J.W.S.T. 2048",
+  "name": "jwst-2048",
   "version": "1.0.0",
   "description": "A 2048 game on a hex field",
   "main": "game.js",
