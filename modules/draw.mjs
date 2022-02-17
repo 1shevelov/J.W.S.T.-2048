@@ -1,7 +1,7 @@
 // Drawing with PIXI
 
 //import * as vis from "./visuals.mjs";
-//import * as constant from "./constants.mjs";
+import * as constant from "./constants.mjs";
 
 
 export default class Draw {
@@ -19,6 +19,9 @@ export default class Draw {
         // array of all hexes
         // the sequence of array's members corresponds to that of a GameLogic.field
         this.fieldHexes = [];
+
+        // array of labels, one for each hex
+        this.labels = [];
     }
 
 
@@ -167,6 +170,7 @@ export default class Draw {
     }
 
 
+    // DEBUG method
     // draws text labels over all hexes
     // returns array of labels for output
     // if addInfo(array) present, show it next to cell's index
@@ -193,5 +197,53 @@ export default class Draw {
         });
 
         return labels;
+    }
+
+
+    // create text label for each hex
+    createEmptyLabels(pixiText, textStyle, stage) {
+
+        if(this.labels.length !== 0) {
+
+            console.log("Emptying labels array.");
+
+            this.labels = [];
+        }
+        
+        let label;
+        const emptyLabelText = "";
+
+        this.fieldHexes.forEach(hexCenter => {
+
+            label = new pixiText(emptyLabelText, textStyle);
+
+            label.x = hexCenter[0];
+            label.y = hexCenter[1];
+            label.anchor.set(0.5);
+            stage.addChild(label);
+
+            this.labels.push(label);
+        });
+    }
+
+
+    // draws label on hexes with value > 0
+    updateLabels(logicField) {
+
+        if(logicField === undefined) {
+
+            console.log("No field specified");
+
+            return;
+        }
+        
+        logicField.forEach((hex, index) => {
+            
+            if(hex.value === constant.CELL_EMPTY || hex.value === constant.CELL_DISABLED)
+                this.labels[index].text = "";
+
+            else
+                this.labels[index].text = hex.value;
+        });
     }
 }

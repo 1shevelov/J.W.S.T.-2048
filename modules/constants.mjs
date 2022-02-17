@@ -1,7 +1,16 @@
+// game field sizes
+// where the elements are number of hex circles including central hex (first circle)
 export const GAME_SIZES = [2, 3, 4];
 
-//export const CURRENT_GAME_SIZE = GAME_SIZES[0];
+// new tiles generation patterns
+// each turn a one of the elements is chosen and spawned
+export const GAME_SIZES_NEW_TILES = [
+    [2, 2, 2, 2, 4],
+    [2, 2, 2, 2, 4, 4],
+    [2, 2, 2, 2, 2, 4, 4, 4, 8]
+];
 
+// to win a game achieve this goal number 
 export const GAME_GOALS = [256, 1024, 8096];
 
 // field cells coordinates stored in a "packed" way
@@ -11,12 +20,14 @@ export const FIELD_RING = [
     //[0,0],  // center cell, created in GameLogic.createCircularField()
     [0,1, 1,0, 1,-1, 0,-1, -1,0, -1,1],  // ring 2 (+6 cells)
     [0,2, 1,1, 2,0, 2,-1, 2,-2, 1,-2, 0,-2, -1,-1, -2,0, -2,1, -2,2, -1,2],  //ring 3 (+12 cells)
-    [0,3, 1,2, 2,1, 3,0, 3,-1, 3,-2, 3,-3, 2,-3, 1,-3, 0,-3, -1,-2, -2,-1, -3,0, -3,1, -3,2, -3,3, -2,3, -1,3]  // ring 4 (+18 cells)
+    [0,3, 1,2, 2,1, 3,0, 3,-1, 3,-2, 3,-3, 2,-3, 1,-3, 0,-3, -1,-2, -2,-1,
+        -3,0, -3,1, -3,2, -3,3, -2,3, -1,3]  // ring 4 (+18 cells)
 ];
 
 export const CELL_EMPTY = 0;
 export const CELL_DISABLED = -1; // for field configurations with gaps or just out of borders
 
+export const MOVE_KEYPRESS_DELAY = 200; // ms
 
 export const STATUS_DOM_PLAYING = "playing";
 export const STATUS_UI_PLAYING = "Game in progress";
@@ -29,20 +40,24 @@ export const STATUS_UI_GAME_OVER = "Game is finished";
 
 // export const RNG_SERVER = PROD_SERVER;
 
-// key codes that make move
-export const KEYS_MOVE = ["KeyQ", "KeyW", "KeyE", "KeyA", "KeyS", "KeyD",
-    "Numpad7", "Numpad8", "Numpad9", "Numpad4", "Numpad5", "Numpad6"];
+export const KEY_UNASSIGNED = 0;
+export const KEY_MOVE = 1;
+export const KEY_UI = 2;
 
-// direction keys & corresponding vectors
-export const KEY_Q = "q";
+// key codes that make move
+export const KEYS_MOVE = [
+    "KeyQ", "Numpad7",
+    "KeyW", "Numpad8",
+    "KeyE", "Numpad9",
+    "KeyA", "Numpad4",
+    "KeyS", "Numpad5",
+    "KeyD", "Numpad6"
+];
+
+// direction vectors
 export const SHIFT_Q = [-1, 1];
-export const KEY_A = "a";
-export const SHIFT_A = [-1, 0];
-export const KEY_W = "w";
 export const SHIFT_W = [0, 1];
-export const KEY_S = "s";
-export const SHIFT_S = [0, -1];
-export const KEY_E = "e";
 export const SHIFT_E = [1, 0];
-export const KEY_D = "d";
+export const SHIFT_A = [-1, 0];
+export const SHIFT_S = [0, -1];
 export const SHIFT_D = [1, -1];

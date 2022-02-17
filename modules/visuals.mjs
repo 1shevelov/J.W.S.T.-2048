@@ -33,7 +33,7 @@ export const THEME_DARK_WARM = {
     "aLine": 1,
 }
 
-export const TEXT_ON_DARK_WARM = {
+export const LABEL_ON_DARK_WARM = {
     fontFamily: 'Courier New',
     fontSize: 28,
     fontStyle: 'normal',

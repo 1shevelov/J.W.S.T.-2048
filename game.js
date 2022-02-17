@@ -4,9 +4,9 @@ import * as vis from "./modules/visuals.mjs";
 
 import GameLogic from "./modules/game-logic.mjs";
 import Draw from "./modules/draw.mjs";
-import EventHandler from "./modules/event-handler.mjs";
+import InputHandler from "./modules/input-handler.mjs";
 
-const CURRENT_GAME_SIZE = constant.GAME_SIZES[0];
+let current_game_size = 0; // an index in GAME_SIZES array
 
 const gameEl = document.getElementById("game");
 const gameUIEl = document.getElementById("game-ui");
@@ -28,28 +28,70 @@ gameEl.appendChild(app.view);
 //     gameWrapperEl.removeChild(gameContainer);
 // }
 
+
 const GR = new PIXI.Graphics();
 
 const CURRENT_THEME = vis.THEME_DARK_WARM;
 
 const DRAW = new Draw(GR, CURRENT_THEME, vis.USE_POINTY_HEXES);
 
-//DRAW.hex([200, 200], 100);
+const CURRENT_TEXT_STYLE = vis.LABEL_ON_DARK_WARM;
+const LABEL_STYLE = new PIXI.TextStyle(CURRENT_TEXT_STYLE);
 
-DRAW.circularField(CURRENT_GAME_SIZE, [300, 300], 200);
+const logic;
 
-app.stage.addChild(GR);
+const field;
 
+startGame();
 
-let logic = new GameLogic(CURRENT_GAME_SIZE);
+function startGame() {
+
+    DRAW.circularField(constant.GAME_SIZES[current_game_size], [300, 300], 200);
+
+    app.stage.addChild(GR);
+
+    logic = new GameLogic(constant.GAME_SIZES[current_game_size]);
+
+    logic.newTiles(1, constant.GAME_SIZES_NEW_TILES[current_game_size]);
+
+    field = logic.getField();
+
+    DRAW.createEmptyLabels(PIXI.Text, LABEL_STYLE, app.stage);
+    DRAW.updateLabels(field);
+
+}
 
 //debugShowHexLabels();
 
-logic.newTiles(1, [2]);
+const inputHandler = new InputHandler();
 
-const field = logic.getField();
+document.addEventListener('keyup', (event) => {
 
-const eventHandler = new EventHandler(document);
+    let action = inputHandler.keyboardHandler(event);
+
+    switch(action[0]) {
+
+        case constant.KEY_UNASSIGNED:
+
+            //show keys help popup
+            break;
+
+        case constant.KEY_MOVE:
+
+            //check if move changed field's state and skip if not
+            //console.log(field);
+            logic.makeMove(action[1]);
+            //console.log(field);
+            logic.newTiles(1, [2, 2, 2, 2, 4]);
+            DRAW.updateLabels(field);
+            break;
+
+        case constant.KEY_UI:
+
+            // UI action
+            break;
+    }
+});
 
 
 //logic.newTiles(2, [4]);
