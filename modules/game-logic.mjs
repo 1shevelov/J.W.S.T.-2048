@@ -181,7 +181,7 @@ export default class GameLogic {
 
             if(!this.shift(dirVector)) break; // not a single tile moved
             
-            console.log("tiles shifted");
+            //console.log("tiles shifted");
         }
 
         if(this.merge(dirVector))
@@ -191,7 +191,7 @@ export default class GameLogic {
         
         else
             {
-                console.log("move finished");
+                //console.log("move finished");
 
                 this.field.forEach(cell => {
 

@@ -8,6 +8,8 @@ import InputHandler from "./modules/input-handler.mjs";
 
 let current_game_size = 0; // an index in GAME_SIZES array
 
+let gameState = constant.GAME_STATE_PAUSE;
+
 const gameEl = document.getElementById("game");
 const gameUIEl = document.getElementById("game-ui");
 
@@ -29,6 +31,13 @@ gameEl.appendChild(app.view);
 // }
 
 
+function makeNewGame(game_size) {
+
+    console.log("Making new game with the size: ", game_size);
+
+    gameState = constant.GAME_STATE_PLAYING;
+}
+
 const GR = new PIXI.Graphics();
 
 const CURRENT_THEME = vis.THEME_DARK_WARM;
@@ -41,6 +50,8 @@ const LABEL_STYLE = new PIXI.TextStyle(CURRENT_TEXT_STYLE);
 let logic;
 
 let field;
+
+let moveCounter = 0;
 
 startGame();
 
@@ -78,12 +89,33 @@ document.addEventListener('keyup', (event) => {
 
         case constant.KEY_MOVE:
 
-            //check if move changed field's state and skip if not
-            //console.log(field);
-            logic.makeMove(action[1]);
-            //console.log(field);
-            logic.newTiles(1, [2, 2, 2, 2, 4]);
-            DRAW.updateLabels(field);
+            
+            if(gameState === constant.GAME_STATE_PLAYING) {
+            
+                //check if move changed field's state and skip if not
+                //console.log(field);
+                logic.makeMove(action[1]);
+
+                moveCounter++;
+
+                if(canContinueGame()) {
+
+                    logic.newTiles(1, [2, 2, 2, 2, 4]);
+
+                    DRAW.updateLabels(field);
+                
+                } else {
+
+                    gameState = constant.GAME_STATE_PAUSE;
+                    
+                    finishGame();
+                }
+            
+            } else {
+
+                console.log(" START A NEW GAME");
+            }
+            
             break;
 
         case constant.KEY_UI:
@@ -93,6 +125,50 @@ document.addEventListener('keyup', (event) => {
     }
 });
 
+
+function canContinueGame() {
+
+    if(logic.checkGoal(constant.GAME_GOALS[current_game_size])
+        || logic.getEmptyTilesNum() === 0) {
+
+        return false;
+    }
+
+    return true;
+}
+
+
+function finishGame() {
+
+    console.log("  ***  GAME FINISHED!  ***  ");
+
+    console.log(" ", moveCounter, " moves made.");
+
+    if(logic.checkGoal(constant.GAME_GOALS[current_game_size])) {
+
+        console.log(" Game is WON: The goal has been achieved.");
+
+        return;
+    }
+
+    console.log(" Game is lost: no empty tiles left (", logic.getEmptyTilesNum(),").");
+
+    const promptTitle = "New game?\ninput field size: " + String(constant.GAME_SIZES);
+    
+    let userPrompt = prompt(promptTitle, constant.GAME_SIZES[current_game_size]);
+
+    if(userPrompt !== null) {
+
+        let new_game_size = userPrompt;
+
+        if(constant.GAME_SIZES.find(x => x === new_game_size) === undefined) {
+
+            new_game_size = current_game_size;
+        }
+
+        makeNewGame(new_game_size);
+    }
+}
 
 //logic.newTiles(2, [4]);
 //console.log("Neighbour: ", logic.getNeighbour(cell, constant.SHIFT_A));

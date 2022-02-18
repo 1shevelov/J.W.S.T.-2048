@@ -11,7 +11,7 @@ export const GAME_SIZES_NEW_TILES = [
 ];
 
 // to win a game achieve this goal number 
-export const GAME_GOALS = [256, 1024, 8096];
+export const GAME_GOALS = [128, 1024, 8096];
 
 // field cells coordinates stored in a "packed" way
 // each row is a ring of cells around cell zero {0, 0, 0}
@@ -34,6 +34,9 @@ export const STATUS_UI_PLAYING = "Game in progress";
 export const STATUS_DOM_GAME_OVER = "game-over";
 export const STATUS_UI_GAME_OVER = "Game is finished";
 
+export const GAME_STATE_PAUSE = 0;
+export const GAME_STATE_PLAYING = 1;
+//export const GAME_STATES[];
 
 // const DEV_SERVER = "";
 // const PROD_SERVER = "hex2048szb9jquj-hex15.functions.fnc.fr-par.scw.cloud";
@@ -61,3 +64,4 @@ export const SHIFT_E = [1, 0];
 export const SHIFT_A = [-1, 0];
 export const SHIFT_S = [0, -1];
 export const SHIFT_D = [1, -1];
+
