@@ -38,9 +38,9 @@ const DRAW = new Draw(GR, CURRENT_THEME, vis.USE_POINTY_HEXES);
 const CURRENT_TEXT_STYLE = vis.LABEL_ON_DARK_WARM;
 const LABEL_STYLE = new PIXI.TextStyle(CURRENT_TEXT_STYLE);
 
-const logic;
+let logic;
 
-const field;
+let field;
 
 startGame();
 
