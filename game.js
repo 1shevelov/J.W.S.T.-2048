@@ -6,7 +6,7 @@ import GameLogic from "./modules/game-logic.mjs";
 import Draw from "./modules/draw.mjs";
 import InputHandler from "./modules/input-handler.mjs";
 
-let current_game_size = 0; // an index in GAME_SIZES array
+let activeGameSizeIndex = constant.DEFAULT_GAME_SIZE_INDEX;
 
 let gameState = constant.GAME_STATE_PAUSE;
 
@@ -31,39 +31,56 @@ gameEl.appendChild(app.view);
 // }
 
 
-function makeNewGame(game_size) {
-
-    console.log("Making new game with the size: ", game_size);
-
-    gameState = constant.GAME_STATE_PLAYING;
-}
-
 const GR = new PIXI.Graphics();
 
 const CURRENT_THEME = vis.THEME_DARK_WARM;
 
-const DRAW = new Draw(GR, CURRENT_THEME, vis.USE_POINTY_HEXES);
+let DRAW;
 
 const CURRENT_TEXT_STYLE = vis.LABEL_ON_DARK_WARM;
 const LABEL_STYLE = new PIXI.TextStyle(CURRENT_TEXT_STYLE);
+
+let moveCounter;
 
 let logic;
 
 let field;
 
-let moveCounter = 0;
+makeNewGame(activeGameSizeIndex);
 
-startGame();
+function makeNewGame(gameSize) {
 
+    console.log("\nMaking new game with the size: ", constant.GAME_SIZES[gameSize]);
+
+    moveCounter = 0;
+
+    activeGameSizeIndex = gameSize;
+
+    if(DRAW !== undefined) {
+
+        DRAW.clearLabels();
+    }
+    
+    GR.clear();
+
+    gameState = constant.GAME_STATE_PLAYING;
+
+    DRAW = new Draw(GR, CURRENT_THEME, vis.USE_POINTY_HEXES);
+
+    startGame();
+}
+
+
+// called in makeNewGame()
 function startGame() {
 
-    DRAW.circularField(constant.GAME_SIZES[current_game_size], [300, 300], 200);
+    DRAW.circularField(constant.GAME_SIZES[activeGameSizeIndex], [300, 300], 200);
 
     app.stage.addChild(GR);
 
-    logic = new GameLogic(constant.GAME_SIZES[current_game_size]);
+    logic = new GameLogic(constant.GAME_SIZES[activeGameSizeIndex]);
 
-    logic.newTiles(1, constant.GAME_SIZES_NEW_TILES[current_game_size]);
+    logic.newTiles(1, constant.GAME_SIZES_NEW_TILES[activeGameSizeIndex]);
 
     field = logic.getField();
 
@@ -128,7 +145,7 @@ document.addEventListener('keyup', (event) => {
 
 function canContinueGame() {
 
-    if(logic.checkGoal(constant.GAME_GOALS[current_game_size])
+    if(logic.checkGoal(constant.GAME_GOALS[activeGameSizeIndex])
         || logic.getEmptyTilesNum() === 0) {
 
         return false;
@@ -144,7 +161,7 @@ function finishGame() {
 
     console.log(" ", moveCounter, " moves made.");
 
-    if(logic.checkGoal(constant.GAME_GOALS[current_game_size])) {
+    if(logic.checkGoal(constant.GAME_GOALS[activeGameSizeIndex])) {
 
         console.log(" Game is WON: The goal has been achieved.");
 
@@ -155,27 +172,28 @@ function finishGame() {
 
     const promptTitle = "New game?\ninput field size: " + String(constant.GAME_SIZES);
     
-    let userPrompt = prompt(promptTitle, constant.GAME_SIZES[current_game_size]);
+    let userPrompt = prompt(promptTitle, constant.GAME_SIZES[activeGameSizeIndex]);
 
+    //console.log("prompt = ", userPrompt);
+    
     if(userPrompt !== null) {
 
-        let new_game_size = userPrompt;
+        let newGameSizeIndex;
 
-        if(constant.GAME_SIZES.find(x => x === new_game_size) === undefined) {
+        userPrompt = parseInt(userPrompt);
 
-            new_game_size = current_game_size;
+        if(userPrompt === NaN || constant.GAME_SIZES.find(x => x === userPrompt) === undefined) {
+
+            newGameSizeIndex = activeGameSizeIndex;
+        
+        } else {
+
+            newGameSizeIndex = constant.GAME_SIZES.indexOf(userPrompt);
         }
 
-        makeNewGame(new_game_size);
+        makeNewGame(newGameSizeIndex);
     }
 }
-
-//logic.newTiles(2, [4]);
-//console.log("Neighbour: ", logic.getNeighbour(cell, constant.SHIFT_A));
-// console.log("Shifted tiles: ", logic.shift(constant.SHIFT_W));
-// console.log(field);
-// console.log("Shifted tiles 2: ", logic.shift(constant.SHIFT_S));
-// console.log(field);
 
 
 function debugShowHexLabels() {

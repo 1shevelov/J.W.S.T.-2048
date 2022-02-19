@@ -9,25 +9,35 @@ export default class Draw {
     constructor(pixiGraphics, theme, usePointyHexes) {
 
         this.pixiGraph = pixiGraphics;
-        
+
         this.theme = theme;
 
         //this.textStyle = textStyle;
 
         this.usePointyHexes = usePointyHexes;
 
-        // array of all hexes
+        // array of all hexes centers
         // the sequence of array's members corresponds to that of a GameLogic.field
-        this.fieldHexes = [];
+        this.fieldHexesCenters = [];
 
         // array of labels, one for each hex
         this.labels = [];
     }
 
 
-    getHexes() {
+    // destroy all geometry objects
+    clearLabels() {
 
-        return this.fieldHexes;
+        for(let i = 0; i < this.labels.length; i++) {
+        
+            this.labels[i].destroy();
+        }
+    }
+
+
+    getHexesCenters() {
+
+        return this.fieldHexesCenters;
     }
 
     // draws a hex
@@ -64,7 +74,7 @@ export default class Draw {
         let newHexesCenters = [];
         
         // first hex is a center hex
-        this.fieldHexes.push(center);
+        this.fieldHexesCenters.push(center);
 
         // distance to centers of the corner ring hexes
         let distance2Ring = hexRadius * Math.sqrt(3);
@@ -73,7 +83,7 @@ export default class Draw {
         // !(not use pointy hexes) here to get centers at the right position
         newHexesCenters = this.getHexVertices(center, distance2Ring, !this.usePointyHexes);
 
-        this.fieldHexes.push(...newHexesCenters);
+        this.fieldHexesCenters.push(...newHexesCenters);
 
         // array of not corner hexes
         let interimHexesCenters = [];
@@ -100,11 +110,11 @@ export default class Draw {
                 i++; //skipping next corner hex
             }
         
-            this.fieldHexes.push(...newHexesCenters);
+            this.fieldHexesCenters.push(...newHexesCenters);
         }
 
         // draw all the hexes
-        this.fieldHexes.forEach(hexCenter => {
+        this.fieldHexesCenters.forEach(hexCenter => {
 
             this.hex(hexCenter, hexRadius);
         });
@@ -181,7 +191,7 @@ export default class Draw {
         let label;
         let labelText = "";
 
-        this.fieldHexes.forEach((hexCenter, index) => {
+        this.fieldHexesCenters.forEach((hexCenter, index) => {
 
             labelText = String(index + 1);
 
@@ -207,13 +217,15 @@ export default class Draw {
 
             console.log("Emptying labels array.");
 
+            this.clearLabels();
+
             this.labels = [];
         }
         
         let label;
         const emptyLabelText = "";
 
-        this.fieldHexes.forEach(hexCenter => {
+        this.fieldHexesCenters.forEach(hexCenter => {
 
             label = new pixiText(emptyLabelText, textStyle);
 

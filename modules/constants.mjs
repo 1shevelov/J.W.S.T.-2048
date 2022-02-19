@@ -2,6 +2,9 @@
 // where the elements are number of hex circles including central hex (first circle)
 export const GAME_SIZES = [2, 3, 4];
 
+// default field size is 3, the same size as JWST's mirror
+export const DEFAULT_GAME_SIZE_INDEX = 0;//1;
+
 // new tiles generation patterns
 // each turn a one of the elements is chosen and spawned
 export const GAME_SIZES_NEW_TILES = [
