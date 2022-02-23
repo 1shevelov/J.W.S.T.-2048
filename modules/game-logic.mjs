@@ -164,9 +164,11 @@ export default class GameLogic {
 
             if(neighbour.value === cell.value && !neighbour.merged) {
 
-                neighbour.value += cell.value;
+                neighbour.value = cell.value * constant.BASE_TILE;
                 neighbour.merged = true;
+
                 cell.value = constant.CELL_EMPTY;
+
                 changedTiles = true;
             }
         });
@@ -184,21 +186,19 @@ export default class GameLogic {
             //console.log("tiles shifted");
         }
 
-        if(this.merge(dirVector))
+        if(this.merge(dirVector)) {
+            // there are merged tiles, start shifting tiles again
             
-            // start sahifting tiles again
             this.makeMove(dirVector); // recoursive call
         
-        else
-            {
-                //console.log("move finished");
+        } else {
+            // no merged tiles
 
-                this.field.forEach(cell => {
+            this.field.forEach(cell => {
 
-                    cell.merged = false;
-                });
-                // wait for next user input
-            }
+                cell.merged = false;
+            });
+        }
     }
 
 
@@ -217,7 +217,7 @@ export default class GameLogic {
     }
 
 
-    // Check if the goal has been met
+    // check if the tile with goal value has been made
     checkGoal(goalValue) {
         
         this.field.forEach(cell => {
