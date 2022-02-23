@@ -1,3 +1,8 @@
+export const CELL_EMPTY = 0;
+export const CELL_DISABLED = -1; // for field configurations with gaps or just out of borders
+
+export const BASE_TILE = 2;
+
 // game field sizes
 // where the elements are number of hex circles including central hex (first circle)
 export const GAME_SIZES = [2, 3, 4];
@@ -8,16 +13,16 @@ export const DEFAULT_GAME_SIZE_INDEX = 0;//1;
 // new tiles generation patterns
 // each turn a one of the elements is chosen and spawned
 export const GAME_SIZES_NEW_TILES = [
-    [2, 2, 2, 2, 4],
-    [2, 2, 2, 2, 4, 4],
-    [2, 2, 2, 2, 2, 4, 4, 4, 8]
+    [BASE_TILE, BASE_TILE, BASE_TILE, BASE_TILE, BASE_TILE ** 2],
+    [BASE_TILE, BASE_TILE, BASE_TILE, BASE_TILE, BASE_TILE ** 2, BASE_TILE ** 2],
+    [BASE_TILE, BASE_TILE, BASE_TILE, BASE_TILE, BASE_TILE, BASE_TILE ** 2, BASE_TILE ** 2, BASE_TILE ** 2, BASE_TILE ** 3]
 ];
 
 // to win a game achieve this goal number 
-export const GAME_GOALS = [128, 1024, 8096];
+export const GAME_GOALS = [BASE_TILE ** 7, BASE_TILE ** 10, BASE_TILE ** 13];
 
 // field cells coordinates stored in a "packed" way
-// each row is a ring of cells around cell zero {0, 0, 0}
+// each row is a ring of cells around cell zero {X=0, Y=0, Z=0}
 // coordinates Xs and Ys alternate
 export const FIELD_RING = [
     //[0,0],  // center cell, created in GameLogic.createCircularField()
@@ -26,9 +31,6 @@ export const FIELD_RING = [
     [0,3, 1,2, 2,1, 3,0, 3,-1, 3,-2, 3,-3, 2,-3, 1,-3, 0,-3, -1,-2, -2,-1,
         -3,0, -3,1, -3,2, -3,3, -2,3, -1,3]  // ring 4 (+18 cells)
 ];
-
-export const CELL_EMPTY = 0;
-export const CELL_DISABLED = -1; // for field configurations with gaps or just out of borders
 
 export const MOVE_KEYPRESS_DELAY = 200; // ms
 

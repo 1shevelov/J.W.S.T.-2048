@@ -18,6 +18,7 @@ export default class Draw {
 
         // array of all hexes centers
         // the sequence of array's members corresponds to that of a GameLogic.field
+        // used for drawing hexes and labels
         this.fieldHexesCenters = [];
 
         // array of labels, one for each hex
@@ -39,6 +40,7 @@ export default class Draw {
 
         return this.fieldHexesCenters;
     }
+
 
     // draws a hex
     // pointy = true - pointy hex
